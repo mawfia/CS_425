@@ -16,9 +16,9 @@ namespace engine {
 
 	void GraphicsManager::Startup(void) {
 
-		int  window_width = 4, window_height = 4;
+		int  window_width = 1000, window_height = 1000;
 		const char window_name[] = "test";
-		bool window_fullscreen = true;
+		bool window_fullscreen = false;
 
 		glfwInit();
 		// We'll use sokol_gfx's OpenGL backend

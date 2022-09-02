@@ -20,15 +20,15 @@ namespace engine {
 		this->Startup(); // Engine::Startup() will work as well
 		SetupCallback();
 
-		/*
+		
 		 while( true ){
 
-			UpdateCallback();
+			//UpdateCallback();
 
-			this->graphics.Draw();
+			//this->graphics.Draw();
 			this_thread::sleep_for(one_tenth_of_a_second);
 		 }
-		*/
+		
 	}
 
 	void Engine::Startup(void) {
