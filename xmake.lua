@@ -1,6 +1,9 @@
 add_rules("mode.debug", "mode.release")
 add_requires("glfw")
 
+includes("external/xmake_soloud.lua")
+add_requires("soloud")
+
   target("engine")
       set_kind("static")
       set_languages("cxx17")
@@ -11,6 +14,7 @@ add_requires("glfw")
 
       add_files("src/*.cpp")
       add_packages("glfw", {public = true})
+      add_packages("soloud", {public = true})
 
   target("helloworld")
       set_kind("binary")
@@ -19,3 +23,9 @@ add_requires("glfw")
       add_deps("engine")
 
       add_files("demo/helloworld.cpp")
+
+      -- Copy assets
+      after_build(function (target)
+        cprint("Copying assets")
+        os.cp("$(projectdir)/assets", path.directory(target:targetfile()))
+      end)

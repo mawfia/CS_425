@@ -18,9 +18,6 @@ int main( int argc, const char* argv[] ) {
     Engine e;
     int GameParameters = 0;
     e.Start(GameParameters, callback1, callback2);
-    e.name = "Engine started!";
-    cout << e.name << '\n';
-
 
     return 0;
 }
