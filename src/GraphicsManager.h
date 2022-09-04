@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "GLFW/glfw3.h"
 
 using namespace std;
 
@@ -13,6 +13,9 @@ namespace engine {
 			void Startup(void);
 			void Shutdown(void);
 			void Draw(void);
+
+			GLFWwindow* window;
+			
 		};
 
 }

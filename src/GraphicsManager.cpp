@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-#define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
 #include "GraphicsManager.h"
 
@@ -26,7 +25,7 @@ namespace engine {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		GLFWwindow* window = glfwCreateWindow(window_width, window_height, window_name, window_fullscreen ? glfwGetPrimaryMonitor() : 0, 0);
+		this->window = glfwCreateWindow(window_width, window_height, window_name, window_fullscreen ? glfwGetPrimaryMonitor() : 0, 0);
 		glfwSetWindowAspectRatio(window, window_width, window_height);
 		if (!window)
 		{

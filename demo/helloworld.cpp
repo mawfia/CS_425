@@ -3,12 +3,12 @@
 
 using namespace std;
 
-void function1() {
+void callback1() {
     cout << "initialize callback" << '\n';
 }
 
-void function2() {
-    cout << "update callback" << '\n';
+void callback2(char key) {
+    cout << key << ' ';
 }
 
 int main( int argc, const char* argv[] ) {
@@ -17,7 +17,7 @@ int main( int argc, const char* argv[] ) {
 
     Engine e;
     int GameParameters = 0;
-    e.Start(GameParameters, function1, function2);
+    e.Start(GameParameters, callback1, callback2);
     e.name = "Engine started!";
     cout << e.name << '\n';
 

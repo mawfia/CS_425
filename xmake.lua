@@ -10,7 +10,7 @@ add_requires("glfw")
       add_includedirs("src", {public = true})
 
       add_files("src/*.cpp")
-      add_packages("glfw")
+      add_packages("glfw", {public = true})
 
   target("helloworld")
       set_kind("binary")
