@@ -1,3 +1,7 @@
+add_requires("sokol")
+add_requires("glm")
+add_requires("stb")
+
 add_rules("mode.debug", "mode.release")
 add_requires("glfw")
 
@@ -15,6 +19,9 @@ add_requires("soloud")
       add_files("src/*.cpp")
       add_packages("glfw", {public = true})
       add_packages("soloud", {public = true})
+      add_packages("sokol", {public = true})
+      add_packages("glm")
+      add_packages("stb", {public = true})
 
   target("helloworld")
       set_kind("binary")

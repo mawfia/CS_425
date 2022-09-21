@@ -4,8 +4,10 @@
 #include <chrono>
 #include <iostream>
 #include <functional>
+#include <vector>
 
 #include "Engine.h"
+//#include "Sprite.h"
 
 using namespace std;
 
@@ -23,6 +25,11 @@ namespace engine {
 		this->Startup(); // Engine::Startup() will work as well
 		
 		this->sound.LoadSound("blurp", "assets/sounds/blurp.wav");
+		this->graphics.loadImage("carrot", "assets/images/carrot.jpg");
+		this->graphics.loadImage("liberty", "assets/images/liberty.jpg");
+
+		vector<Sprite> sprites{Sprite("liberty", 0.5, 180, 0.0, 0.0, 0.0), Sprite("carrot", 0.5f, 180.0f, 0.0f, 0.0f, 0.0f)};
+		
 
 		//SetupCallback();
 		bool pressed_new = false;
@@ -45,13 +52,13 @@ namespace engine {
 				return;
 			}
 
+			this->graphics.Draw(sprites);
 			auto newTime = chrono::steady_clock::now();
 			auto loopTime = newTime - currentTime;
 			auto delta = dt - loopTime;
 			
 			if (delta.count() > 0) this_thread::sleep_for(delta);
 		 }
-		
 	}
 
 	void Engine::Startup(void) {

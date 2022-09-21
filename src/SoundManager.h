@@ -15,7 +15,7 @@ namespace engine {
 	public:
 		SoundManager();
 		Soloud soloud;
-		SoLoud::Wav boom;
+		//SoLoud::Wav boom;
 		void Startup(void);
 		void Shutdown(void);
 		void LoadSound(const string& name, const string& path);
