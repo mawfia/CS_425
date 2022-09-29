@@ -7,31 +7,33 @@
 #include <vector>
 
 #include "Engine.h"
-//#include "Sprite.h"
+
 
 using namespace std;
 
 namespace engine {
 
+
 	Engine::Engine(void) {
+
+		this->graphics = *(new GraphicsManager(this));
 
 	}
 
-	void Engine::Start(int GameParameters, void (*SetupCallback)(), const function<void(char)>& UpdateCallback) {
+
+	void Engine::Start(int GameParameters, const function<void(Engine& e)>& SetupCallback, const function<void(Engine& e)>& UpdateCallback) {
 		
 		const auto dt = chrono::duration<double>(1. / 60.);
 		
 
+		cout << thread::hardware_concurrency() << endl;
+
 		this->Startup(); // Engine::Startup() will work as well
 		
-		this->sound.LoadSound("blurp", "assets/sounds/blurp.wav");
-		this->graphics.loadImage("carrot", "assets/images/carrot.jpg");
-		this->graphics.loadImage("liberty", "assets/images/liberty.jpg");
-
-		vector<Sprite> sprites{Sprite("liberty", 0.5, 180, 0.0, 0.0, 0.0), Sprite("carrot", 0.5f, 180.0f, 0.0f, 0.0f, 0.0f)};
 		
 
-		//SetupCallback();
+		SetupCallback(*this);
+
 		bool pressed_new = false;
 		bool pressed_old = false;
 
@@ -41,7 +43,7 @@ namespace engine {
 			pressed_old = pressed_new;
 
 			this->input.Update();
-			pressed_new = this->input.GetKeyPressed(this->graphics.window, UpdateCallback);
+			pressed_new = this->input.GetKeyPressed(this->graphics.window);
 			
 			if (!pressed_new && pressed_old) {
 				this->sound.PlaySound("blurp");
@@ -52,7 +54,8 @@ namespace engine {
 				return;
 			}
 
-			this->graphics.Draw(sprites);
+			UpdateCallback(*this);
+
 			auto newTime = chrono::steady_clock::now();
 			auto loopTime = newTime - currentTime;
 			auto delta = dt - loopTime;

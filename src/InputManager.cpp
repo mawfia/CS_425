@@ -28,13 +28,15 @@ namespace engine {
 		glfwPollEvents();
 	}
 
-	bool InputManager::GetKeyPressed(GLFWwindow* window, const function<void(char)>& UpdateCallback) {
+	bool InputManager::GetKeyPressed(GLFWwindow* window) {
 		
 		bool pressed = false;
 
-		for (auto key : this->keyMap)
-			if (glfwGetKey(window, key.first) == 1) {
-				UpdateCallback(key.second);
+		for (auto [key, value] : this->keyMap)
+			if (glfwGetKey(window, key) == 1) {
+				//UpdateCallback(key.second);
+				cout << value << ' ';
+				
 				pressed = true;
 			}
 		if (pressed) cout << '\n';

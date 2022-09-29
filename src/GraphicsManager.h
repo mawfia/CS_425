@@ -1,8 +1,7 @@
 #pragma once
-
 #include <unordered_map>
 
-#include "Sprite.h"
+#include "Component.h"
 
 #include "sokol_gfx.h"
 #include "GLFW/glfw3.h"
@@ -14,13 +13,21 @@ using namespace std;
 
 namespace engine {
 
+	class Engine;
+	//class EntityComponentSystem;
+
+
 	class GraphicsManager {
 
 		public:
+
+			Engine* engine = nullptr;
+
 			GraphicsManager();
-			void Startup(void);
+			GraphicsManager(Engine* e);
+			void Startup();
 			void Shutdown(void);
-			void Draw(vector<Sprite>& sprites);
+			void Draw(void);
 			bool loadImage(const string& name, const string& path);
 
 			GLFWwindow* window;

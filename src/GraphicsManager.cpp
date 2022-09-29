@@ -12,6 +12,9 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "GraphicsManager.h"
+#include <assert.h>
+#include "Engine.h"
+
 
 using namespace std;
 using namespace glm;
@@ -26,11 +29,17 @@ namespace {
 namespace engine {
 
 
-	GraphicsManager::GraphicsManager(void) {
+	GraphicsManager::GraphicsManager() {
 
 	}
 
-	void GraphicsManager::Startup(void) {
+	GraphicsManager::GraphicsManager(Engine* e) {
+		GraphicsManager();
+
+		this->engine = e;
+	}
+
+	void GraphicsManager::Startup() {
 
 		int  window_width = 1000, window_height = 1000;
 		const char window_name[] = "test";
@@ -58,10 +67,10 @@ namespace engine {
 		// A vertex buffer containing a textured square.
 		const float vertices[] = {
 			// positions      // texcoords
-			-0.5f,  -0.5f,    0.0f,  0.0f,
-			-0.5f,  0.5f,    0.0f,  1.0f,
-			0.5f,  -0.5f,    1.0f,  0.0f,
-			0.5f,  0.5f,    1.0f,  1.0f,
+			-1.0f,  -1.0f,    0.0f,  1.0f,
+			-1.0f,  1.0f,    0.0f,  0.0f,
+			1.0f,  -1.0f,    1.0f,  1.0f,
+			1.0f,  1.0f,    1.0f,  0.0f,
 		};
 
 		sg_buffer_desc buffer_desc{};
@@ -162,7 +171,6 @@ namespace engine {
 		this->image_desc_Map[name].data.subimage[0][0].ptr = data;
 		this->image_desc_Map[name].data.subimage[0][0].size = (size_t)(width * height * 4);
 
-		//sg_image image = 
 		this->image_Map[name] = sg_make_image(this->image_desc_Map[name]);
 
 		//sg_make_image(this->imageMap[name]);
@@ -177,12 +185,16 @@ namespace engine {
 		return true;
 	}
 
-	void GraphicsManager::Draw(vector<Sprite>& sprites) {
+	void GraphicsManager::Draw() {
 	
-		//sort(sprites.begin(), sprites.end(), [](const Sprite& lhs, const Sprite& rhs) { return lhs.z < rhs.z; });
+		//unordered_map<EntityID, Sprite> sprites = ;
+		//sort(sprites.begin(), sprites.end(), [](const auto& lhs, const auto& rhs) { return lhs.second.z < rhs.second.z; });
+		//sort(sprites.begin(), sprites.end(), [](const auto& lhs, const auto& rhs) { return; });
 
-		int height;
-		int width;
+
+		int height, image_height;
+		int width, image_width;
+		float scale, rotate, x, y, z;
 		Uniforms uniforms;
 
 		glfwGetFramebufferSize(this->window, &width, &height);
@@ -211,27 +223,29 @@ namespace engine {
 			uniforms.projection[0][0] /= width;
 		}
 
-		for (const auto& sprite : sprites) {
+		
+
+		for (const auto& [entityID, sprite] : engine->ECS.GetAppropriateSparseSet<Sprite>()) {
 
 
 			
 			//sg_image image = sg_make_image(this->imageMap[sprite.name]);
 			//sg_image image = this->bindings.fs_images[0];
 
-			/*
-			if (this->bindings.fs_images[0].id != this->image_Map[sprite.name].id)
-			{
-				this->bindings.fs_images[0] = this->image_Map[sprite.name];
-			}*/
+			
+			//if (this->bindings.fs_images[0].id != this->image_Map[sprite.name].id)
+			//{
 			this->bindings.fs_images[0] = this->image_Map[sprite.name];
 			sg_apply_bindings(this->bindings);
-			int image_width = this->image_desc_Map[sprite.name].width;
-			int image_height = this->image_desc_Map[sprite.name].height;
-			float scale = sprite.scale;
-			float rotate = sprite.rotate;
-			float x = sprite.x;
-			float y = sprite.y;
-			float z = sprite.z;
+			image_width = this->image_desc_Map[sprite.name].width;
+			image_height = this->image_desc_Map[sprite.name].height;
+			scale = sprite.scale;
+			rotate = sprite.rotate;
+			x = sprite.x;
+			y = sprite.y;
+			z = sprite.z;
+			//}
+			
 
 			uniforms.transform = glm::translate(mat4{ 1.0f }, vec3(x, y, z)) * glm::scale(mat4{ 1.0f }, vec3(scale, scale, scale)) * glm::rotate(mat4{ 1.0f }, glm::radians(rotate), vec3(0.0, 0.0, 1.0));
 

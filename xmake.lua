@@ -36,3 +36,10 @@ add_requires("soloud")
         cprint("Copying assets")
         os.cp("$(projectdir)/assets", path.directory(target:targetfile()))
       end)
+
+target("threadpool")
+  set_kind("binary")
+  set_languages("cxx17")
+  add_includedirs("src", {public = true})
+
+  add_files("demo/threadpool.cpp")
