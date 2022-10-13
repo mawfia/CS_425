@@ -32,24 +32,29 @@ int main( int argc, const char* argv[] ) {
         engine.ECS.Create(Sprite("liberty", 0.5, 0, 0, 0, 1), Position());
         engine.ECS.Create(Sprite("carrot", 0.5, 0, 0, 0, 0), Position({1,2}), Velocity());
 
+        engine.script.LoadScript("lua", "assets/scripts/helloworld.lua");
         
-        cout << engine.ECS.entity << endl;
-        
-        
+        //if engine.ECS.GetAppropriateSparseSet<Velocity>().Has()
+        //cout << engine.ECS.Get<Sprite>(1).name << endl;
+        //engine.script.ScriptMap["lua"]("its raininig...");
+        engine.ECS.Create(Script({ "lua" }));
     };
 
-    auto UpdateCallback = [&](Engine& engine) {
+    auto UpdateCallback = [](Engine& engine) {
 
 
         engine.graphics.Draw();
+        //engine.script.Update();
 
-        engine.ECS.ForEach<Sprite, Position>([&](EntityID entity) {
+        //cout << string('D', 1) << endl;
+
+        /*engine.ECS.ForEach<Sprite, Position, Velocity>([&](EntityID entity) {
 
 
             engine.ECS.Get<Sprite>(entity).rotate -= 0.2;
 
 
-            });
+            });*/
 
     };
 
@@ -57,6 +62,5 @@ int main( int argc, const char* argv[] ) {
     int GameParameters = 0;
     e.Start(GameParameters, SetupCallback, UpdateCallback);
 
-    
     return 0;
 }

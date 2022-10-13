@@ -33,12 +33,6 @@ namespace engine {
 
 	}
 
-	GraphicsManager::GraphicsManager(Engine* e) {
-		GraphicsManager();
-
-		this->engine = e;
-	}
-
 	void GraphicsManager::Startup() {
 
 		int  window_width = 1000, window_height = 1000;

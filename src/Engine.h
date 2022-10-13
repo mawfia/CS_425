@@ -6,6 +6,7 @@
 #include "GraphicsManager.h"
 #include "InputManager.h"
 #include "SoundManager.h"
+#include "ScriptManager.h"
 #include "EntityComponentSystem.h"
 
 
@@ -23,7 +24,9 @@ namespace engine {
 			GraphicsManager graphics;
 			InputManager input;
 			SoundManager sound;
+			ScriptManager script;
 			EntityComponentSystem ECS;
+
 			Engine();
 			void Start(int GameParameters, const function<void(Engine&)>&, const function<void(Engine&)>& );
 

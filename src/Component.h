@@ -49,6 +49,10 @@ namespace engine {
 
 	};
 
+	struct Script {
+		string name;
+	};
+
 	struct Position {
 		double x, y;
 	};

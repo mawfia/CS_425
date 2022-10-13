@@ -16,7 +16,10 @@ namespace engine {
 
 	Engine::Engine(void) {
 
-		this->graphics = *(new GraphicsManager(this));
+		//this->graphics = *(new GraphicsManager(this));
+		//this->script = *(new ScriptManager(this));
+		this->graphics.engine = this;
+		this->script.engine = this;
 
 	}
 
@@ -26,7 +29,7 @@ namespace engine {
 		const auto dt = chrono::duration<double>(1. / 60.);
 		
 
-		cout << thread::hardware_concurrency() << endl;
+		//cout << thread::hardware_concurrency() << endl;
 
 		this->Startup(); // Engine::Startup() will work as well
 		
@@ -68,6 +71,7 @@ namespace engine {
 		this->graphics.Startup();
 		this->input.Startup();
 		this->sound.Startup();
+		this->script.Startup();
 	}
 
 	void Engine::Shutdown(void) {

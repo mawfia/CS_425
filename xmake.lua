@@ -1,6 +1,7 @@
 add_requires("sokol")
 add_requires("glm")
 add_requires("stb")
+add_requires("lua", "sol2")
 
 add_rules("mode.debug", "mode.release")
 add_requires("glfw")
@@ -22,6 +23,8 @@ add_requires("soloud")
       add_packages("sokol", {public = true})
       add_packages("glm")
       add_packages("stb", {public = true})
+      add_packages("lua")
+      add_packages("sol2", {public = true})
 
   target("helloworld")
       set_kind("binary")

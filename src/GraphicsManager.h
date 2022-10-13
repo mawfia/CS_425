@@ -24,7 +24,6 @@ namespace engine {
 			Engine* engine = nullptr;
 
 			GraphicsManager();
-			GraphicsManager(Engine* e);
 			void Startup();
 			void Shutdown(void);
 			void Draw(void);
