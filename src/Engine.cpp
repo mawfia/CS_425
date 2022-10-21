@@ -47,9 +47,17 @@ namespace engine {
 
 			this->input.Update();
 			pressed_new = this->input.GetKeyPressed(this->graphics.window);
+
 			
 			if (!pressed_new && pressed_old) {
-				this->sound.PlaySound("blurp");
+				//this->sound.PlaySound("blurp");
+
+				/*for (auto [key, value] : this->input.keys) {
+					cout << value << ' ';
+				}
+
+				cout << endl;*/
+				this->input.keys.clear();
 			}
 			
 			if (this->input.WindowShouldClose(this->graphics.window) == 1) {

@@ -21,6 +21,7 @@ namespace engine {
 			sol::state lua;
 			Engine* engine = nullptr;
 			unordered_map<string, sol::load_result> ScriptMap;
+			//unordered_map<string, string> ScriptPathMap;
 
 			ScriptManager(void);
 			void Startup(void);

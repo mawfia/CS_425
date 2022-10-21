@@ -17,6 +17,7 @@ namespace engine {
 	class GraphicsManager;
 	class InputManager;
 	class SoundManager;
+	class ScriptManager;
 
 	class Engine {
 

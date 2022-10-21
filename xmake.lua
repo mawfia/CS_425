@@ -34,11 +34,12 @@ add_requires("soloud")
 
       add_files("demo/helloworld.cpp")
 
+      set_rundir("$(projectdir)")
       -- Copy assets
-      after_build(function (target)
-        cprint("Copying assets")
-        os.cp("$(projectdir)/assets", path.directory(target:targetfile()))
-      end)
+      --after_build(function (target)
+      --  cprint("Copying assets")
+      --  os.cp("$(projectdir)/assets", path.directory(target:targetfile()))
+      --end)
 
 target("threadpool")
   set_kind("binary")
@@ -46,3 +47,10 @@ target("threadpool")
   add_includedirs("src", {public = true})
 
   add_files("demo/threadpool.cpp")
+
+target("filewatcher")
+  set_kind("binary")
+  set_languages("cxx17")
+  add_includedirs("src", {public = true})
+
+  add_files("demo/FileWatcherTest.cpp")

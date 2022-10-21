@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <functional>
+#include <vector>
 
 #include "GLFW/glfw3.h"
 
@@ -18,8 +19,11 @@ namespace engine {
 			void Shutdown(void);
 			int WindowShouldClose(GLFWwindow* window);
 			void Update(void);
+			unordered_map<int, string> keys;
 			bool GetKeyPressed(GLFWwindow* window);
-			unordered_map<int, char> keyMap{ 
+			unordered_map<int, string> keyMap{ {262,"right"}, {263,"left"},{264,"down"},{265,"up"} };
+			
+			/*unordered_map<int, char> keyMap{
 				{65,'a'},
 				{66,'b'},
 				{67,'c'},
@@ -46,6 +50,6 @@ namespace engine {
 				{88,'x'},
 				{89,'y'},
 				{90,'z'}
-			};
+			};*/
 	};
 }

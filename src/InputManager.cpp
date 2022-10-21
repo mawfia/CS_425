@@ -31,15 +31,16 @@ namespace engine {
 	bool InputManager::GetKeyPressed(GLFWwindow* window) {
 		
 		bool pressed = false;
-
 		for (auto [key, value] : this->keyMap)
 			if (glfwGetKey(window, key) == 1) {
 				//UpdateCallback(key.second);
-				cout << value << ' ';
-				
+				//cout << value << ' ';
+				keys[key] = value;
 				pressed = true;
 			}
-		if (pressed) cout << '\n';
+		//if (pressed) cout << '\n';
+
+		
 	
 		return pressed;
 	}
