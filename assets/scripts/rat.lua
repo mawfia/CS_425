@@ -16,12 +16,14 @@ then
       then
         GetSprite(entity).x = 0.1 + GetSprite(entity).x
         --print(jerry.x, jerry.y)
+        PlaySound("blurp")
       end
 
       if(k == 263)
       then
         GetSprite(entity).x = -0.1 + GetSprite(entity).x
         --print(jerry.x, jerry.y)
+        PlaySound("blurp")
       end
 
       if(k == 264)
@@ -34,6 +36,7 @@ then
       if(k == 265)
       then
         jerry.y = jerry.y + 0.1
+        PlaySound("blurp")
         --print(jerry.x, jerry.y)
       end
     end

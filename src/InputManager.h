@@ -21,7 +21,7 @@ namespace engine {
 			void Update(void);
 			unordered_map<int, string> keys;
 			bool GetKeyPressed(GLFWwindow* window);
-			unordered_map<int, string> keyMap{ {262,"right"}, {263,"left"},{264,"down"},{265,"up"} };
+			unordered_map<int, string> keyMap{ {262,"right"}, {263,"left"},{264,"down"},{265,"up"},{32,"space"} };
 			
 			/*unordered_map<int, char> keyMap{
 				{65,'a'},

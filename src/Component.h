@@ -51,10 +51,24 @@ namespace engine {
 
 	struct Script {
 		string name;
+
+		Script(){}
+
+		Script(const string& n) {
+			name = n;
+		}
 	};
 
 	struct Position {
-		double x, y;
+		//double x, y;
+		string name;
+
+		Position(){}
+
+		Position(const string& n) {
+			name = n;
+		}
+
 	};
 
 	struct Velocity {
@@ -67,6 +81,12 @@ namespace engine {
 
 	struct Health {
 		double percent;
+
+		Health() {}
+
+		Health(double p) {
+			percent = p;
+		}
 	};
 
 	class SparseSetHolder {
@@ -84,6 +104,4 @@ namespace engine {
 			bool Has(EntityID e) const override { return data.count(e) > 0; };
 			void Drop(EntityID e) override { data.erase(e); };
 	};
-
-	void Angry(int x);
 }

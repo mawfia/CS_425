@@ -17,8 +17,8 @@ namespace engine {
 
 	void ScriptManager::Startup() {
 
-		lua.open_libraries(lib::base, lib::math, lib::table);
-		lua.script("math.randomseed(0)");
+		lua.open_libraries(lib::base, lib::math, lib::table, lib::os);
+		lua.script("math.randomseed(os.time())");
 		//lua.script("print('bark bark bark')");
 		
 		//lua["GetSprite"] = [&](EntityID e) { return engine->ECS.Get<Sprite>(e); };
@@ -38,9 +38,40 @@ namespace engine {
 		sprite_type["y"] = &Sprite::y;
 		sprite_type["z"] = &Sprite::z;
 
+
+		sol::usertype<Script> script_type = lua.new_usertype<Script>("Script",
+
+			sol::constructors< Script(), Script(const string&) >()
+
+			);
+
+		script_type["name"] = &Script::name;
+
+		sol::usertype<Position> position_type = lua.new_usertype<Position>("Position",
+
+			sol::constructors< Position(), Position(const string&)>()
+
+			);
+
+		position_type["name"] = &Position::name;
+
+		sol::usertype<Health> health_type = lua.new_usertype<Health>("Health",
+
+				sol::constructors< Health(), Health(double) >()
+
+			);
+
+		health_type["percent"] = &Health::percent;
+
 		lua["GetSprite"] = [&](EntityID e) -> Sprite& { return engine->ECS.Get<Sprite>(e); };
+		lua["GetScript"] = [&](EntityID e) -> Script& { return engine->ECS.Get<Script>(e); };
+		lua["GetHealth"] = [&](EntityID e) -> Health& { return engine->ECS.Get<Health>(e); };
 		lua["Keys"] = &engine->input.keys;
 		lua["PlaySound"] = [&](string name) -> void { engine->sound.PlaySound(name); };
+		lua["spawn"] = true;
+		lua["count"] = 0;
+		lua["CreateSprite"] = [&](Sprite& sprite) -> EntityID { return engine->ECS.Create<Sprite>(sprite); };
+		lua["DestroyEntity"] = [&](EntityID e) -> void { engine->ECS.Destroy(e); };
 
 	}
 
