@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "Component.h"
 
-#include "EntityComponentSystem.cpp"
+#include "EntityComponentSystem.h"
 
 
 using namespace std;
