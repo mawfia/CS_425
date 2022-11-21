@@ -19,7 +19,7 @@ then
 
   if(count == 2)
   then
-    local id = CreateSprite(Sprite.new("missile", 0.1, 0, spaceship.x, spaceship.y + 0.05, 0))
+    local id = CreateSprite(Sprite.new("missile", 0.03, 0, spaceship.x, spaceship.y + 0.05, 0))
     GetScript(id).name = "assets/scripts/missile.lua"
     GetHealth(id).percent = 100
     count = 0

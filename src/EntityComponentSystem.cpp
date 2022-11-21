@@ -52,7 +52,7 @@ namespace engine {
 	
 
 	template< typename T, typename ... Types >
-	EntityID EntityComponentSystem::Create( T& t, Types&... types ) {
+	EntityID EntityComponentSystem::Create(const T& t, const Types&... types ) {
 
 		Get<T>(entity+1) = t;
 		if constexpr (sizeof...(Types) > 0) { return Create<Types...>(types...); }
@@ -80,7 +80,6 @@ namespace engine {
 	void EntityComponentSystem::ForEach(const function<void(EntityID)>& callback) {
 		// Iterate over elements of the first container.
 
-		int test = 4;
 		auto& container = GetAppropriateSparseSet<EntitiesThatHaveThisComponent>();
 		for ( const auto& [entity, value] : container) {
 			// We know it has the first component.

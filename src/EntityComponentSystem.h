@@ -23,7 +23,7 @@ namespace engine {
 			ComponentIndex GetNextIndex();
 			template< typename T > unordered_map< EntityID, T >& GetAppropriateSparseSet();
 			template< typename T > T& Get(EntityID);
-			template< typename T, typename... Types > EntityID Create( T&, Types& ... );
+			template< typename T, typename... Types > EntityID Create(const T&, const Types& ... );
 			void Destroy(EntityID);
 			template< typename T, typename... Types > bool HasAll(EntityID);
 			template< typename T, typename... Types > void ForEach(const function<void(EntityID)>& );

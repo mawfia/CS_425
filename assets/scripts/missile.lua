@@ -10,20 +10,20 @@ then
 
   if(missile.x > enemy.x)
   then
-    missile.x = missile.x - 0.01
+    missile.x = missile.x - 0.02
     end
 
-    if(missile.x < enemy.x)
-    then
-      missile.x = missile.x + 0.01
-    end
+  if(missile.x < enemy.x)
+  then
+    missile.x = missile.x + 0.02
+  end
 
-    if(missile.y < .5)
-    then
-      local rotate = math.atan(enemy.y - missile.y, enemy.x - missile.x)
+  if(missile.y < .5)
+  then
+    local rotate = math.atan(enemy.y - missile.y, enemy.x - missile.x)
 
-      missile.rotate = (math.deg(rotate) - 90) % 360
-    end
+    missile.rotate = (math.deg(rotate) - 90) % 360
+  end
 end
 
 
