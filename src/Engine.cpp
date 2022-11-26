@@ -18,7 +18,10 @@ namespace engine {
 
 		//this->graphics = *(new GraphicsManager(this));
 		//this->script = *(new ScriptManager(this));
+		//this->physics = *(new PhysicsManager(this));
 		this->graphics.engine = this;
+		this->physics.engine = this;
+
 		this->script.engine = this;
 
 	}

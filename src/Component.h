@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
 
 using namespace std;
 
@@ -73,6 +74,11 @@ namespace engine {
 
 	struct Velocity {
 		double x, y;
+
+		Velocity(double x_, double y_) {
+			x = x_;
+			y = y_;
+		}
 	};
 
 	struct Gravity {
@@ -98,7 +104,8 @@ namespace engine {
 	};
 
 	// Subclasses are templated on the component type they hold.
-	template< typename T > class SparseSet : public SparseSetHolder {
+	template< typename T > 
+	class SparseSet : public SparseSetHolder {
 		public:
 			unordered_map< EntityID, T > data;
 			bool Has(EntityID e) const override { return data.count(e) > 0; };

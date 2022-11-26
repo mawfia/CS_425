@@ -5,7 +5,6 @@
 
 #include <unordered_map>
 
-#include "Component.h"
 
 using namespace std;
 

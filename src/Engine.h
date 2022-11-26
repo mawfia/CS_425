@@ -7,6 +7,7 @@
 #include "InputManager.h"
 #include "SoundManager.h"
 #include "ScriptManager.h"
+#include "PhysicsManager.h"
 #include "EntityComponentSystem.h"
 
 
@@ -18,6 +19,7 @@ namespace engine {
 	class InputManager;
 	class SoundManager;
 	class ScriptManager;
+	class PhysicsManager;
 
 	class Engine {
 
@@ -26,6 +28,7 @@ namespace engine {
 			InputManager input;
 			SoundManager sound;
 			ScriptManager script;
+			PhysicsManager physics;
 			EntityComponentSystem ECS;
 
 			Engine();
