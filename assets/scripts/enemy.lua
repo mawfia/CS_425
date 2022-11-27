@@ -1,6 +1,6 @@
 local entity = ...
 
-enemy = GetSprite(entity)
+local enemy = GetSprite(entity)
 local health = GetHealth(entity)
 
 
@@ -8,5 +8,18 @@ local health = GetHealth(entity)
 if(health.percent == 0)
 then
   DestroyEntity(entity)
-  --spawn = true
+
+  for k, v in ipairs(enemies) do
+    if(v == entity) then
+      table.remove(enemies, k)
+    end
+  end
+
+  spawn = #enemies
+  print(#enemies)
 end
+
+--if(math.atan(spaceship.y - enemy.y, spaceship.x - enemy.x) == 0) then
+--
+  --print("spotted")
+--end

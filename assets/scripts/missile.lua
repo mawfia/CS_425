@@ -5,7 +5,7 @@ local health = GetHealth(entity)
 
 missile.y = missile.y + 0.05
 
-if(spawn == false)
+if(spawn > 5)
 then
 
   if(missile.x > enemy.x)

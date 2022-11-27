@@ -6,7 +6,7 @@
 #include "ScriptManager.h"
 #include "Engine.h"
 
-# define PI 3.14159265359
+#define PI 3.14159265359
 
 
 using namespace std;
@@ -21,14 +21,13 @@ namespace engine {
 
     void PhysicsManager::Separation(EntityID id1, EntityID id2) {
         
-        Sprite entity1 = engine->ECS.Get<Sprite>(id1);
+        Pvector location1 = engine->ECS.Get<Sprite>(id1).GetLocation();
         //Velocity entity1_v = engine->ECS.Get<Velocity>(id1);
 
-        Sprite entity2 = engine->ECS.Get<Sprite>(id2);
+        Pvector location2 = engine->ECS.Get<Sprite>(id2).GetLocation();
 
-        Pvector location1(entity1.x, entity1.y);
-        Pvector location2(entity2.x, entity2.y);
-        //Pvector steer(0, 0);
+        //Pvector location1(entity1.x, entity1.y);
+        //Pvector location2(entity2.x, entity2.y);
         Pvector velocity1 = engine->ECS.Get<Velocity>(id1).Get(); //(entity1_v.x, entity1_v.y);
 
         float d = location1.distance(location2);
@@ -42,7 +41,6 @@ namespace engine {
             separation_count++;
         }
 
-        //return steer;
     }
 
     void PhysicsManager::Alignment(EntityID id1, EntityID id2) {
@@ -114,12 +112,11 @@ namespace engine {
 
         engine->ECS.ForEach<Sprite, Health>([&](EntityID id) {
 
-            // Check boundaries
             auto& entity = engine->ECS.Get<Sprite>(id);
-
             auto& entity_v = engine->ECS.Get<Velocity>(id);
             auto& entity_a = engine->ECS.Get<Acceleration>(id);
 
+            // Check user boundaries
             if (entity.name == "spaceship") {
                 if (entity.x > .9) entity.x = 0.9;
                 if (entity.x < -.9) entity.x = -0.9;
@@ -127,9 +124,9 @@ namespace engine {
                 if (entity.y < -.9) entity.y = -0.9;
             }
        
-            //Check collisions
             if (entity.name == "enemy") {
 
+                //Check non-user collisions
                 if (entity.x > .9) entity_v.x = -entity_v.x;
                 if (entity.x < -.9) entity_v.x = -entity_v.x;
                 if (entity.y > .9) entity_v.y = -entity_v.y;

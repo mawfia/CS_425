@@ -89,8 +89,8 @@ namespace engine {
 		lua["GetHealth"] = [&](EntityID e) -> Health& { return engine->ECS.Get<Health>(e); };
 		lua["Keys"] = &engine->input.keys;
 		lua["PlaySound"] = [&](string name) -> void { engine->sound.PlaySound(name); };
-		lua["spawn"] = true;
-		//lua.set("spawn", 1);
+		//lua["spawn"] = true;
+		lua.set("spawn", 0);
 		
 		lua["maxSpeed"] = 0.5;
 		lua["maxForce"] = 0.5;

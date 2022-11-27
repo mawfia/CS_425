@@ -27,14 +27,15 @@ int main( int argc, const char* argv[] ) {
 
         engine.sound.LoadSound("blurp", "assets/sounds/blurp.wav");
         engine.sound.LoadSound("win", "assets/sounds/win.mp3");
-        engine.graphics.loadImage("carrot", "assets/images/carrot.jpg");
-        engine.graphics.loadImage("liberty", "assets/images/liberty.png");
-        engine.graphics.loadImage("rat", "assets/images/rat.png");
-        engine.graphics.loadImage("tom", "assets/images/tom.png");
-        engine.graphics.loadImage("cheese", "assets/images/cheese.png");
+        //engine.graphics.loadImage("carrot", "assets/images/carrot.jpg");
+        //engine.graphics.loadImage("liberty", "assets/images/liberty.png");
+        //engine.graphics.loadImage("rat", "assets/images/rat.png");
+        //engine.graphics.loadImage("tom", "assets/images/tom.png");
+        //engine.graphics.loadImage("cheese", "assets/images/cheese.png");
         engine.graphics.loadImage("spaceship", "assets/images/Spaceship.png");
         engine.graphics.loadImage("missile", "assets/images/Missile.png");
         engine.graphics.loadImage("enemy", "assets/images/EnemyShip.png");
+        engine.graphics.loadImage("missile2", "assets/images/Missile2.png");
 
 
         //engine.ECS.Create(Sprite("liberty", 0.5, 0, 0, 0, 1), Position());
@@ -45,13 +46,16 @@ int main( int argc, const char* argv[] ) {
         engine.ECS.Create(Sprite("spaceship", 0.1, 0, 0, 0, 0), Script("assets/scripts/spaceship.lua" ), Health(100));
         //engine.ECS.Create(Sprite("enemy", 0.1, 180, 0, 0, 0), Script( "assets/scripts/enemy.lua"), Health(100), Velocity(-0.005, 0.005));
 
+        //engine.ECS.Create(Sprite("missile2", 0.1, 0, 0, 0, 0), Script("assets/scripts/missile2.lua"));
+
         //engine.script.LoadScript("lua", "assets/scripts/helloworld.lua");
         
         //if engine.ECS.GetAppropriateSparseSet<Velocity>().Has()
         //cout << engine.ECS.Get<Sprite>(1).name << endl;
         //engine.script.ScriptMap["lua"]("its raininig...");
-        engine.ECS.Create(Script("assets/scripts/missiles.lua"));
         engine.ECS.Create(Script("assets/scripts/enemy_manager.lua"));
+
+        engine.ECS.Create(Script("assets/scripts/missiles.lua"));
     };
 
     auto UpdateCallback = [](Engine& engine) {

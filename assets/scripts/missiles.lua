@@ -24,4 +24,14 @@ then
     GetHealth(id).percent = 100
     count = 0
   end
+
+
+  --if(#enemies > 0) then
+  --local enemy = GetVelocity(enemies[1])
+
+  --local rotate = math.atan(enemy.y - spaceship.y, enemy.x - spaceship.x)
+  --print((math.deg(rotate) - 90) % 360)
+  --end
+
+
 end
