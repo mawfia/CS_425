@@ -3,6 +3,8 @@
 #include <string>
 #include <unordered_map>
 
+#include "Pvector.h"
+
 using namespace std;
 
 namespace engine {
@@ -48,6 +50,15 @@ namespace engine {
 			z = z_;
 		}
 
+		void Sprite::SetLocation(const Pvector& v) {
+			x = v.x;
+			y = v.y;
+		}
+
+		Pvector Sprite::GetLocation() {
+			return Pvector(x, y);
+		}
+
 	};
 
 	struct Script {
@@ -61,23 +72,54 @@ namespace engine {
 	};
 
 	struct Position {
-		//double x, y;
-		string name;
+		float x, y;
 
 		Position(){}
 
-		Position(const string& n) {
-			name = n;
+		Position(float x_, float y_) {
+			x = x_;
+			y = y_;
 		}
 
 	};
 
 	struct Velocity {
-		double x, y;
+		float x, y;
 
-		Velocity(double x_, double y_) {
+		Velocity(){}
+
+		Velocity(float x_, float y_) {
 			x = x_;
 			y = y_;
+		}
+
+		void Set(Pvector v) {
+			x = v.x;
+			y = v.y;
+		}
+
+		Pvector Get() {
+			return Pvector(x, y);
+		}
+	};
+
+	struct Acceleration {
+		float x, y;
+
+		Acceleration::Acceleration() {}
+
+		Acceleration::Acceleration(float x_, float y_) {
+			x = x_;
+			y = y_;
+		}
+
+		void Acceleration::Set(Pvector a) {
+			x = a.x;
+			y = a.y;
+		}
+
+		Pvector Acceleration::Get() {
+			return Pvector(x, y);
 		}
 	};
 

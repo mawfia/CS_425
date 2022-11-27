@@ -6,6 +6,7 @@
 #include "ScriptManager.h"
 #include "Engine.h"
 
+# define PI 3.14159265359
 
 
 using namespace std;
@@ -18,31 +19,133 @@ namespace engine {
 
 	}
 
-    float PhysicsManager::CheckDistance(Sprite& s1, Sprite& s2) {
+    void PhysicsManager::Separation(EntityID id1, EntityID id2) {
+        
+        Sprite entity1 = engine->ECS.Get<Sprite>(id1);
+        //Velocity entity1_v = engine->ECS.Get<Velocity>(id1);
 
+        Sprite entity2 = engine->ECS.Get<Sprite>(id2);
 
-        float dx = s1.x - s2.x;
-        float dy = s1.y - s2.y;
+        Pvector location1(entity1.x, entity1.y);
+        Pvector location2(entity2.x, entity2.y);
+        //Pvector steer(0, 0);
+        Pvector velocity1 = engine->ECS.Get<Velocity>(id1).Get(); //(entity1_v.x, entity1_v.y);
 
-        return sqrt( (dx * dx) + (dy * dy) );
+        float d = location1.distance(location2);
+
+        if ((d > 0) && (d < desiredSeparation)) {
+            Pvector diff(0, 0);
+            diff = diff.subTwoVector(location1, location2);
+            diff.normalize();
+            diff.divScalar(d);
+            separation.addVector(diff);
+            separation_count++;
+        }
+
+        //return steer;
+    }
+
+    void PhysicsManager::Alignment(EntityID id1, EntityID id2) {
+        
+        Sprite entity1 = engine->ECS.Get<Sprite>(id1);
+        Velocity entity1_v = engine->ECS.Get<Velocity>(id1);
+        Sprite entity2 = engine->ECS.Get<Sprite>(id2);
+        Velocity entity2_v = engine->ECS.Get<Velocity>(id2);
+
+        Pvector location1(entity1.x, entity1.y);
+        Pvector location2(entity2.x, entity2.y);
+        Pvector velocity1(entity1_v.x, entity1_v.y);
+        Pvector velocity2(entity2_v.x, entity2_v.y);
+
+        float d = location1.distance(location2);
+
+        if ((d > 0) && (d < neighbordist)) {
+            alignment.addVector(velocity2);
+            alignment_count++;
+        }
+    }
+
+    void PhysicsManager::Cohesion(EntityID id1, EntityID id2) {
+
+        //Sprite entity1 = 
+        //Sprite entity2 = engine->ECS.Get<Sprite>(id2);
+
+        Pvector location1 = engine->ECS.Get<Sprite>(id1).GetLocation();  //(entity1.x, entity1.y);
+        Pvector location2 = engine->ECS.Get<Sprite>(id2).GetLocation(); //(entity2.x, entity2.y);
+
+        float d = location1.distance(location2);
+
+        if ((d > 0) && (d < neighbordist)) {
+            cohesion.addVector(location2);
+            cohesion_count++;
+        }
+    }
+
+    Pvector PhysicsManager::Seek(EntityID id) {
+
+        Velocity entity_v = engine->ECS.Get<Velocity>(id);
+        Pvector velocity(entity_v.x, entity_v.y);
+
+        Acceleration entity_a = engine->ECS.Get<Acceleration>(id);
+        Pvector acceleration(entity_a.x, entity_a.y);
+
+        Pvector desired;
+
+        desired.subVector(cohesion);
+        desired.normalize();
+        desired.mulScalar(maxSpeed);
+
+        acceleration.subTwoVector(desired, velocity);
+        acceleration.limit(maxForce);
+        return acceleration;
+    }
+
+    float PhysicsManager::Angle(const Pvector& v) {
+
+        return (float)(atan2(v.x, -v.y) * 180 / PI);
     }
 
 	void PhysicsManager::Update() {
+
+        maxSpeed = engine->script.lua["maxSpeed"];
+        maxForce = engine->script.lua["maxForce"];
+        desiredSeparation = engine->script.lua["desiredSeparation"];
+        neighbordist = engine->script.lua["neighbordist"];
 
         engine->ECS.ForEach<Sprite, Health>([&](EntityID id) {
 
             // Check boundaries
             auto& entity = engine->ECS.Get<Sprite>(id);
 
-            if (entity.x > .9) entity.x = 0.9;
-            if (entity.x < -.9) entity.x = -0.9;
-            if (entity.y > .9) entity.y = 0.9;
-            if (entity.y < -.9) entity.y = -0.9;
+            auto& entity_v = engine->ECS.Get<Velocity>(id);
+            auto& entity_a = engine->ECS.Get<Acceleration>(id);
 
-
+            if (entity.name == "spaceship") {
+                if (entity.x > .9) entity.x = 0.9;
+                if (entity.x < -.9) entity.x = -0.9;
+                if (entity.y > .9) entity.y = 0.9;
+                if (entity.y < -.9) entity.y = -0.9;
+            }
+       
             //Check collisions
             if (entity.name == "enemy") {
 
+                if (entity.x > .9) entity_v.x = -entity_v.x;
+                if (entity.x < -.9) entity_v.x = -entity_v.x;
+                if (entity.y > .9) entity_v.y = -entity_v.y;
+                if (entity.y < -.9) entity_v.y = -entity_v.y;
+
+
+                separation.set(0, 0);
+                separation_count = 0;
+                alignment.set(0, 0);
+                alignment_count = 0;
+                cohesion_count = 0;
+                cohesion.set(0, 0);
+
+                Pvector velocity1(entity_v.x, entity_v.y);
+                Pvector location1(entity.x, entity.y);
+                Pvector acceleration1(entity_a.x, entity_a.y);
 
                 engine->ECS.ForEach<Sprite, Health>([&](EntityID id2) {
 
@@ -66,16 +169,76 @@ namespace engine {
 
                     if (entity2.name == "enemy" && id != id2) {
 
-
-                        float d = CheckDistance(entity, entity2);
-
+                        Separation(id, id2);
+                        Alignment(id, id2);
+                        Cohesion(id, id2);
                     }
 
 
                 });
 
-            }
+                // Finish Separation Calculations
+                if (separation_count > 0) separation.divScalar((float)separation_count);
 
+                if (separation.magnitude() > 0) {
+                    separation.normalize();
+                    separation.mulScalar(maxSpeed);
+                    separation.subVector(velocity1);
+                    separation.limit(maxForce);
+                }
+
+                
+                // Finish Alignment Calculations
+                if (alignment_count > 0) {
+                    alignment.divScalar((float)alignment_count);
+                    alignment.normalize();
+                    alignment.mulScalar(maxSpeed);
+
+                    alignment = alignment.subTwoVector(alignment, velocity1);
+                    alignment.limit(maxForce);
+                }
+                else {
+                    alignment.set(0, 0);
+                }
+
+                // Finish Cohesion Calculations
+                if (cohesion_count > 0) {
+                    cohesion.divScalar(cohesion_count);
+                    cohesion = Seek(id);
+                }
+                else {
+                    cohesion.set(0, 0);
+                }
+
+                // Arbitrarily weight these forces
+                separation.mulScalar(.035);
+                alignment.mulScalar(.015);
+                cohesion.mulScalar(.015);
+
+                
+
+                // Apply Force to current force vector
+                acceleration1.addVector(separation);
+                acceleration1.addVector(alignment);
+                acceleration1.addVector(cohesion);
+
+
+                // Modifies velocity, location, and acceleration with the three laws applied
+                acceleration1.mulScalar(0.4);
+                velocity1.addVector(acceleration1);
+                velocity1.limit(maxSpeed);
+                location1.addVector(velocity1);
+                acceleration1.mulScalar(0);
+                
+                
+
+                entity.SetLocation(location1);
+                entity_v.Set(velocity1);
+                entity_a.Set(acceleration1);
+
+                entity.rotate = Angle(velocity1);
+
+            }
         });
 
 	}
