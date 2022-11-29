@@ -1,10 +1,23 @@
 local entity = ...
 
 spaceship = GetSprite(entity)
+local health = GetHealth(entity)
+
+if(health.percent <= 0) then
+
+  if(spaceship.index < 32) then
+    spaceship.index = spaceship.index + 1
+
+  else
+    DestroyEntity(entity)
+  end
+
+end
 
 
 if(#Keys > 0)
 then
+
     for k, v in pairs(Keys) do
 
       if(k == 262)
@@ -38,9 +51,5 @@ then
         --PlaySound("blurp")
         --print(jerry.x, jerry.y)
       end
-
-
-
-
     end
 end
