@@ -37,6 +37,7 @@ namespace engine {
 		sprite_type["x"] = &Sprite::x;
 		sprite_type["y"] = &Sprite::y;
 		sprite_type["z"] = &Sprite::z;
+		sprite_type["index"] = &Sprite::index;
 
 
 		sol::usertype<Script> script_type = lua.new_usertype<Script>("Script",
@@ -91,12 +92,14 @@ namespace engine {
 		lua["PlaySound"] = [&](string name) -> void { engine->sound.PlaySound(name); };
 		//lua["spawn"] = true;
 		lua.set("spawn", 0);
+		lua.set("rate1", 0);
+		lua.set("rate2", 0);
 		
 		lua["maxSpeed"] = 0.5;
 		lua["maxForce"] = 0.5;
 		lua["desiredSeparation"] = 0.1;
 		lua["neighbordist"] = 50;
-		lua["count"] = 0;
+		lua.set("max_enemy", 3);
 		lua["CreateSprite"] = [&](Sprite& sprite) -> EntityID { return engine->ECS.Create<Sprite>(sprite); };
 		lua["DestroyEntity"] = [&](EntityID e) -> void { engine->ECS.Destroy(e); };
 

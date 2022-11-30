@@ -4,7 +4,7 @@ local entity = ...
 
 --spaceship.rotate = 45
 
-if(Keys[32])
+if(not (spaceship == nil) and Keys[32])
 then
 
   rate1 = rate1 + 1
@@ -13,12 +13,13 @@ then
 
   --test = (math.deg(test) - 90) % 360
 
-
   if(rate1 == 3)
   then
     local id = CreateSprite(Sprite.new("missile", 0.03, 0, spaceship.x, spaceship.y + 0.05, 0))
     GetScript(id).name = "assets/scripts/missile.lua"
     GetHealth(id).percent = 100
+    local velocity = GetVelocity(id)
+    velocity.y = 0.05
     rate1 = 0
   end
 

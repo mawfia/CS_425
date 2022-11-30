@@ -26,6 +26,7 @@ namespace engine {
 			void Shutdown(void);
 			void Draw(void);
 			bool loadImage(const string& name, const string& path);
+			bool loadImages(const string&, const vector<string>&);
 
 			GLFWwindow* window;
 			//sg_pipeline_desc pipeline_desc{};
@@ -36,6 +37,9 @@ namespace engine {
 
 			unordered_map<string, sg_image_desc> image_desc_Map;
 			unordered_map<string, sg_image> image_Map;
+
+			unordered_map<string, vector<sg_image_desc>> image_desc_Map2;
+			unordered_map<string, vector<sg_image>> image_Map2;
 			//sg_image_desc image_desc{};
 			
 		};

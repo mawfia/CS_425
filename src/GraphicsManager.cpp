@@ -145,6 +145,36 @@ namespace engine {
 		cout << "Graphics Manager shutting down." << '\n';
 	}
 
+	bool GraphicsManager::loadImages(const string& name, const vector<string>& paths) {
+
+		for (const auto& path : paths) {
+			int width, height, channels;
+			unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 4);
+
+			if (!data) return false;
+			else cout << path + " loaded successfully" << endl;
+
+			sg_image_desc image_desc{};
+
+			image_desc.width = width;
+			image_desc.height = height;
+			image_desc.pixel_format = SG_PIXELFORMAT_RGBA8;
+			image_desc.min_filter = SG_FILTER_LINEAR;
+			image_desc.mag_filter = SG_FILTER_LINEAR;
+			image_desc.wrap_u = SG_WRAP_CLAMP_TO_EDGE;
+			image_desc.wrap_v = SG_WRAP_CLAMP_TO_EDGE;
+			image_desc.data.subimage[0][0].ptr = data;
+			image_desc.data.subimage[0][0].size = (size_t)(width * height * 4);
+
+			this->image_desc_Map2[name].push_back(image_desc);
+			this->image_Map2[name].push_back(sg_make_image(this->image_desc_Map2[name].back()));
+
+			stbi_image_free(data);
+		}
+
+		return true;
+	}
+
 	bool GraphicsManager::loadImage(const string& name, const string& path) {
 
 		int width, height, channels;
@@ -229,10 +259,10 @@ namespace engine {
 			
 			//if (this->bindings.fs_images[0].id != this->image_Map[sprite.name].id)
 			//{
-			this->bindings.fs_images[0] = this->image_Map[sprite.name];
+			this->bindings.fs_images[0] = this->image_Map2[sprite.name].at(sprite.index);
 			sg_apply_bindings(this->bindings);
-			image_width = this->image_desc_Map[sprite.name].width;
-			image_height = this->image_desc_Map[sprite.name].height;
+			image_width = this->image_desc_Map2[sprite.name].at(sprite.index).width;
+			image_height = this->image_desc_Map2[sprite.name].at(sprite.index).height;
 			scale = sprite.scale;
 			rotate = sprite.rotate;
 			x = sprite.x;

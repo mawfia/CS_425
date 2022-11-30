@@ -27,16 +27,19 @@ int main( int argc, const char* argv[] ) {
 
         engine.sound.LoadSound("blurp", "assets/sounds/blurp.wav");
         engine.sound.LoadSound("win", "assets/sounds/win.mp3");
-        //engine.graphics.loadImage("carrot", "assets/images/carrot.jpg");
-        //engine.graphics.loadImage("liberty", "assets/images/liberty.png");
-        //engine.graphics.loadImage("rat", "assets/images/rat.png");
-        //engine.graphics.loadImage("tom", "assets/images/tom.png");
-        //engine.graphics.loadImage("cheese", "assets/images/cheese.png");
-        engine.graphics.loadImage("spaceship", "assets/images/Spaceship.png");
-        engine.graphics.loadImage("missile", "assets/images/Missile.png");
-        engine.graphics.loadImage("enemy", "assets/images/EnemyShip.png");
-        engine.graphics.loadImage("missile2", "assets/images/Missile2.png");
 
+        vector<string> explosions;
+        explosions.push_back("assets/images/Spaceship.png");
+        for (int i = 1; i < 32; i++) {
+            explosions.push_back("assets/images/explosion" + to_string(i) + ".png");
+        }
+
+        engine.graphics.loadImages("spaceship", explosions);
+        engine.graphics.loadImages("missile", vector<string>{"assets/images/Missile.png"});
+        engine.graphics.loadImages("missile2", vector<string>{"assets/images/Missile2.png"});
+
+        explosions.at(0) = "assets/images/EnemyShip.png";
+        engine.graphics.loadImages("enemy", explosions);
 
         //engine.ECS.Create(Sprite("liberty", 0.5, 0, 0, 0, 1), Position());
         //engine.ECS.Create(Sprite("carrot", 0.5, 0, 0, 0, 0), Position({1,2}), Velocity());

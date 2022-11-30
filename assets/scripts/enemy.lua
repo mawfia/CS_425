@@ -4,6 +4,7 @@ local enemy = GetSprite(entity)
 local health = GetHealth(entity)
 local velocity = GetVelocity(entity)
 
+
 if(health.percent < 100) then
 
   if(enemy.index < 10) then
@@ -22,28 +23,30 @@ if(health.percent < 100) then
 
 else
 
-  local rotate = math.atan(spaceship.y - enemy.y, spaceship.x - enemy.x)
-  rotate = (math.deg(rotate) - 90) % 360
+  if(not (spaceship == nil)) then
+    local rotate = math.atan(spaceship.y - enemy.y, spaceship.x - enemy.x)
+    rotate = (math.deg(rotate) - 90) % 360
 
-  local diff = (360 - math.abs(enemy.rotate)) - rotate
+    local diff = (360 - math.abs(enemy.rotate)) - rotate
 
-  if( diff < 2 and diff > -2 ) then
+    if( diff < 2 and diff > -2 ) then
 
 
-    rate2 = rate2 + 1
+      rate2 = rate2 + 1
 
-    if(rate2 == 3) then
-      local id = CreateSprite(Sprite.new("missile2", 0.02, enemy.rotate, enemy.x, enemy.y, 0))
-      GetScript(id).name = "assets/scripts/missile2.lua"
-      GetHealth(id).percent = 100
-      local velocity_m = Velocity.new(velocity.x, velocity.y)
+      if(rate2 == 3) then
+        local id = CreateSprite(Sprite.new("missile2", 0.02, enemy.rotate, enemy.x, enemy.y, 0))
+        GetScript(id).name = "assets/scripts/missile2.lua"
+        GetHealth(id).percent = 100
+        local velocity_m = Velocity.new(velocity.x, velocity.y)
 
-      GetVelocity(id).x = velocity_m.x
-      GetVelocity(id).y = velocity_m.y
-      GetAcceleration(id).x = velocity_m.x * 5
-      GetAcceleration(id).y = velocity_m.y * 5
+        GetVelocity(id).x = velocity_m.x
+        GetVelocity(id).y = velocity_m.y
+        GetAcceleration(id).x = velocity_m.x * 5
+        GetAcceleration(id).y = velocity_m.y * 5
 
-      rate2 = 0
+        rate2 = 0
+      end
     end
   end
 end

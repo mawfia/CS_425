@@ -4,7 +4,7 @@ local entity = ...
 maxSpeed = 0.02
 maxForce = 0.06
 desiredSeparation = .2
-neighbordist = 1.5
+neighbordist = 1.2
 
 
 
@@ -13,8 +13,8 @@ then
 
   enemies = {}
 
-  local index = 1
-  while(index < 4) do
+  --local index = 1
+  while(#enemies < max_enemy) do
     local enemy = Sprite.new("enemy", 0.1, 0, math.random() - math.random(), 0.5, 0)
     local id = CreateSprite(enemy)
     GetScript(id).name = "assets/scripts/enemy.lua"
@@ -26,9 +26,10 @@ then
     acceleration.x = 0
     acceleration.y = 0
 
-    enemies[index] = id
-    index = index + 1
-    spawn = #enemies
+    enemies[#enemies+1] = id
+    --index = index + 1
 
   end
+  spawn = #enemies
+  max_enemy = max_enemy + 1
 end

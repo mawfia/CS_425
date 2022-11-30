@@ -2,9 +2,11 @@ local entity = ...
 
 local missile = GetSprite(entity)
 local health = GetHealth(entity)
+local velocity = GetVelocity(entity)
 
-missile.y = missile.y + 0.05
+missile.y = missile.y + velocity.y
 
+--[[
 if(spawn > 5)
 then
 
@@ -25,7 +27,7 @@ then
     missile.rotate = (math.deg(rotate) - 90) % 360
   end
 end
-
+--]]
 
 if(missile.y > 0.9 or health.percent == 0)
 then

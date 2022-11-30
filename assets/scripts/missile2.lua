@@ -6,13 +6,15 @@ local velocity = GetVelocity(entity)
 
 --GetSprite(entity).scale = 0.02
 
+
+--[[
 if(missile.index < 2) then
   missile.index = missile.index + 1
 else
   missile.index = 0
 end
 
---[[
+
 
 
 if(math.abs(missile.y) > 0.9) then

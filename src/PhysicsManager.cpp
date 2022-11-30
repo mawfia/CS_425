@@ -13,9 +13,22 @@ using namespace std;
 
 namespace engine {
 
-	void PhysicsManager::CheckBoundaries() {
+	bool PhysicsManager::CheckCollisions(EntityID id1, EntityID id2) {
 
+        auto& entity1 = engine->ECS.Get<Sprite>(id1);
+        auto& entity2 = engine->ECS.Get<Sprite>(id2);
 
+        bool collisionX = entity1.x + entity1.scale >= entity2.x - entity2.scale && entity2.x + entity2.scale >= entity1.x - entity1.scale;
+        bool collisionY = entity1.y + entity1.scale >= entity2.y - entity2.scale && entity2.y + entity2.scale >= entity1.y - entity1.scale;
+
+        if (collisionX && collisionY) {
+
+            return true;
+            //engine->ECS.Get<Health>(id1).percent = 0;
+            //engine->ECS.Get<Health>(id2).percent = 0;
+
+        }
+        else return false;
 
 	}
 
@@ -122,6 +135,15 @@ namespace engine {
                 if (entity.x < -.9) entity.x = -0.9;
                 if (entity.y > .9) entity.y = 0.9;
                 if (entity.y < -.9) entity.y = -0.9;
+
+                engine->ECS.ForEach<Acceleration>([&](EntityID id2) {
+
+                    if (engine->ECS.Get<Sprite>(id2).name == "missile2" && CheckCollisions(id, id2)) {
+                        engine->ECS.Get<Health>(id).percent -= 20.0;
+                        engine->ECS.Get<Health>(id2).percent -= 100.0;     
+                     }
+
+                });
             }
        
             if (entity.name == "enemy") {
@@ -150,17 +172,10 @@ namespace engine {
 
                     if (entity2.name == "missile" || entity2.name == "spaceship") {
 
-
-                        bool collisionX = entity.x + entity.scale >= entity2.x - entity2.scale && entity2.x + entity2.scale >= entity.x - entity.scale;
-                        bool collisionY = entity.y + entity.scale >= entity2.y - entity2.scale && entity2.y + entity2.scale >= entity.y - entity.scale;
-
-                        if (collisionX && collisionY) {
-
+                        if (CheckCollisions(id, id2)) {
                             engine->ECS.Get<Health>(id).percent = 0;
                             engine->ECS.Get<Health>(id2).percent = 0;
-
                         }
-
 
                     }
 
@@ -233,7 +248,7 @@ namespace engine {
                 entity_v.Set(velocity1);
                 entity_a.Set(acceleration1);
 
-                entity.rotate = Angle(velocity1);
+                entity.rotate = Angle(velocity1) - 180;
 
             }
         });

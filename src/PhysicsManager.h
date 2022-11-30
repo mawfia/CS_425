@@ -26,7 +26,7 @@ namespace engine {
 		int alignment_count = 0;
 		int cohesion_count = 0;
 
-		void CheckBoundaries();
+		bool CheckCollisions(EntityID, EntityID);
 		void Update();
 		void Separation(EntityID, EntityID);
 		void Alignment(EntityID, EntityID);

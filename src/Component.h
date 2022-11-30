@@ -15,6 +15,7 @@ namespace engine {
 	struct Sprite {
 		string name;
 		float x, y, z, scale, rotate;
+		int index = 0;
 
 		Sprite() {
 		}
