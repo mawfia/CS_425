@@ -134,7 +134,7 @@ namespace engine {
 
 		//sg_pass_action pass_action{};
 		this->pass_action.colors[0].action = SG_ACTION_CLEAR;
-		this->pass_action.colors[0].value = { 1.0f, 0.5f, 0.0f, 1.0f };
+		this->pass_action.colors[0].value = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 		//sg_bindings bindings{};
 		this->bindings.vertex_buffers[0] = vertex_buffer;
@@ -229,8 +229,8 @@ namespace engine {
 
 
 		//this->bindings.fs_images[0] = this->imageMap[sprites[0].name];
-		float g = this->pass_action.colors[0].value.g + 0.01f;
-		this->pass_action.colors[0].value.g = (g > 1.0f) ? 0.0f : g;
+		//float g = this->pass_action.colors[0].value.g + 0.01f;
+		//this->pass_action.colors[0].value.g = (g > 1.0f) ? 0.0f : g;
 		
 		
 		// Start with an identity matrix.
