@@ -54,6 +54,15 @@ namespace engine {
             separation_count++;
         }
 
+        if ((d > 0) && (d < desiredSeparation+0.5 && engine->ECS.Get<Sprite>(id2).name == "rock")) {
+            Pvector diff(0, 0);
+            diff = diff.subTwoVector(location1, location2);
+            diff.normalize();
+            diff.mulScalar(5);
+            separation.addVector(diff);
+            separation_count++;
+        }
+
     }
 
     void PhysicsManager::Alignment(EntityID id1, EntityID id2) {
