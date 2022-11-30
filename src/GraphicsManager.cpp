@@ -36,7 +36,7 @@ namespace engine {
 	void GraphicsManager::Startup() {
 
 		int  window_width = 1000, window_height = 1000;
-		const char window_name[] = "test";
+		const char window_name[] = "Galaga Plus";
 		bool window_fullscreen = false;		
 
 		glfwInit();

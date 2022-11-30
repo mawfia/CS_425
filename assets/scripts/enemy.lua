@@ -13,6 +13,7 @@ if(health.percent < 100) then
 
   if(enemy.index == 10) then
     DestroyEntity(entity)
+    PlaySound("explosion2")
     for k, v in ipairs(enemies) do
       if(v == entity) then
         table.remove(enemies, k)
@@ -45,6 +46,7 @@ else
         GetAcceleration(id).x = velocity_m.x * 5
         GetAcceleration(id).y = velocity_m.y * 5
 
+        PlaySound("missile2")
         rate2 = 0
       end
     end

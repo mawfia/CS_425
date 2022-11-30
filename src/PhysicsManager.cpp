@@ -141,6 +141,8 @@ namespace engine {
                     if (engine->ECS.Get<Sprite>(id2).name == "missile2" && CheckCollisions(id, id2)) {
                         engine->ECS.Get<Health>(id).percent -= 20.0;
                         engine->ECS.Get<Health>(id2).percent -= 100.0;     
+
+                        engine->sound.PlaySound("small_explosion");
                      }
 
                 });

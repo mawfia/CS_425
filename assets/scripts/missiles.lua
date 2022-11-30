@@ -1,9 +1,5 @@
 local entity = ...
 
---missile = GetSprite(entity)
-
---spaceship.rotate = 45
-
 if(not (spaceship == nil) and Keys[32])
 then
 
@@ -21,6 +17,7 @@ then
     local velocity = GetVelocity(id)
     velocity.y = 0.05
     rate1 = 0
+    PlaySound("missile")
   end
 
 

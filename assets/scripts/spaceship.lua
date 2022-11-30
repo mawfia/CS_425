@@ -3,13 +3,17 @@ local entity = ...
 spaceship = GetSprite(entity)
 local health = GetHealth(entity)
 
-
 if(health.percent <= 0) then
+
+  if(spaceship.index == 1) then
+    PlaySound("explosion1")
+  end
 
   if(spaceship.index < 31) then
     spaceship.index = spaceship.index + 1
 
   else
+
     DestroyEntity(entity)
     spaceship = nil
   end
