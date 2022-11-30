@@ -23,7 +23,7 @@ namespace engine {
 		this->physics.engine = this;
 
 		this->script.engine = this;
-		
+
 	}
 
 
@@ -83,7 +83,6 @@ namespace engine {
 		this->input.Startup();
 		this->sound.Startup();
 		this->script.Startup();
-		this->path.initializePlane();
 	}
 
 	void Engine::Shutdown(void) {

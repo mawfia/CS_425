@@ -9,7 +9,6 @@
 #include "ScriptManager.h"
 #include "PhysicsManager.h"
 #include "EntityComponentSystem.h"
-#include "PathFinder.h"
 
 
 using namespace std;
@@ -21,7 +20,6 @@ namespace engine {
 	class SoundManager;
 	class ScriptManager;
 	class PhysicsManager;
-	class PathFinder;
 
 	class Engine {
 
@@ -32,7 +30,6 @@ namespace engine {
 			ScriptManager script;
 			PhysicsManager physics;
 			EntityComponentSystem ECS;
-			PathFinder path;
 
 			Engine();
 			void Start(int GameParameters, const function<void(Engine&)>&, const function<void(Engine&)>& );

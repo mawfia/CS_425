@@ -2,7 +2,7 @@
 
 #include <string>
 #include <unordered_map>
-#include<vector>
+
 #include "Pvector.h"
 
 using namespace std;
@@ -12,25 +12,10 @@ namespace engine {
 	typedef long EntityID;
 	typedef int ComponentIndex;
 
-	struct SpritePos {
-		float x, y;
-	};
-
-	struct Node {
-		SpritePos position;
-		float goalDistance;
-		int nodesFromGoal;
-		Node* parent;
-		Node* nextInPath;
-		bool isGoal;
-		bool isBlocked;
-
-	};
-
 	struct Sprite {
 		string name;
 		float x, y, z, scale, rotate;
-		SpritePos position;
+
 		Sprite() {
 		}
 
@@ -39,8 +24,6 @@ namespace engine {
 			x = 0, y = 0, z = 0;
 			scale = 1.0;
 			rotate = 0.0;
-			position.x = 0;
-			position.y = 0;
 		}
 
 		Sprite(const string& n, float s) {
@@ -56,8 +39,6 @@ namespace engine {
 			scale = s;
 			rotate = r;
 			x = 0, y = 0, z = 0;
-			position.x = 0;
-			position.y = 0;
 		}
 
 		Sprite(const string& n, float s, float r, float x_, float y_, float z_) {
@@ -67,26 +48,11 @@ namespace engine {
 			x = x_;
 			y = y_;
 			z = z_;
-			position.x = x_;
-			position.y = y_;
-		}
-
-		Sprite(const string& n, float s, float r, float x_, float y_, float z_,SpritePos pos) {
-			name = n;
-			scale = s;
-			rotate = r;
-			x = x_;
-			y = y_;
-			z = z_;
-			position.x = x_;
-			position.y = y_;
 		}
 
 		void Sprite::SetLocation(const Pvector& v) {
 			x = v.x;
 			y = v.y;
-			position.x = v.x;
-			position.y = v.y;
 		}
 
 		Pvector Sprite::GetLocation() {
