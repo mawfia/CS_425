@@ -18,9 +18,12 @@ namespace engine {
 
 		//this->graphics = *(new GraphicsManager(this));
 		//this->script = *(new ScriptManager(this));
+		//this->physics = *(new PhysicsManager(this));
 		this->graphics.engine = this;
-		this->script.engine = this;
+		this->physics.engine = this;
 
+		this->script.engine = this;
+		
 	}
 
 
@@ -80,6 +83,7 @@ namespace engine {
 		this->input.Startup();
 		this->sound.Startup();
 		this->script.Startup();
+		this->path.initializePlane();
 	}
 
 	void Engine::Shutdown(void) {

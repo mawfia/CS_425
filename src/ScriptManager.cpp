@@ -5,14 +5,14 @@
 
 #include "ScriptManager.h"
 #include "Engine.h"
-
+#include "PathFinder.h"
 
 using namespace std;
 
 namespace engine {
 
 	using namespace sol;
-
+	//EntityComponentSystem ECS;
 	ScriptManager::ScriptManager(){ }
 
 	void ScriptManager::Startup() {
@@ -27,18 +27,20 @@ namespace engine {
 		
 		sol::usertype<Sprite> sprite_type = lua.new_usertype<Sprite>("Sprite",
 
-			sol::constructors<Sprite(), Sprite(const string&), Sprite(const string&, float), Sprite(const string&, float, float), Sprite(const string&, float, float, float, float, float)>()
+			sol::constructors<Sprite(), Sprite(const string&), Sprite(const string&, float), Sprite(const string&, float, float), Sprite(const string&, float, float, float, float, float), Sprite(const string&, float, float, float, float, float,SpritePos) >()
 
 			);
 
 		sprite_type["name"] = &Sprite::name;
 		sprite_type["scale"] = &Sprite::scale;
 		sprite_type["rotate"] = &Sprite::rotate;
+		sprite_type["position"] = &Sprite::position;
 		sprite_type["x"] = &Sprite::x;
 		sprite_type["y"] = &Sprite::y;
 		sprite_type["z"] = &Sprite::z;
+		
 
-
+		
 		sol::usertype<Script> script_type = lua.new_usertype<Script>("Script",
 
 			sol::constructors< Script(), Script(const string&) >()
@@ -47,13 +49,18 @@ namespace engine {
 
 		script_type["name"] = &Script::name;
 
+		sol::usertype<SpritePos> spritePos_type = lua.new_usertype<SpritePos>("SpritePos", sol::constructors<SpritePos()>(), "x", &SpritePos::x, "y", &SpritePos::y);
+		spritePos_type["x"] = &SpritePos::x;
+		spritePos_type["y"] = &SpritePos::y;
+
 		sol::usertype<Position> position_type = lua.new_usertype<Position>("Position",
 
-			sol::constructors< Position(), Position(const string&)>()
+			sol::constructors< Position(), Position(float, float)>()
 
 			);
 
-		position_type["name"] = &Position::name;
+		position_type["x"] = &Position::x;
+		position_type["y"] = &Position::y;
 
 		sol::usertype<Health> health_type = lua.new_usertype<Health>("Health",
 
@@ -63,16 +70,42 @@ namespace engine {
 
 		health_type["percent"] = &Health::percent;
 
+		sol::usertype<Velocity> velocity_type = lua.new_usertype<Velocity>("Velocity",
+
+			sol::constructors< Velocity(), Velocity(float, float)>()
+
+			);
+
+		velocity_type["x"] = &Velocity::x;
+		velocity_type["y"] = &Velocity::y;
+
+		sol::usertype<Acceleration> acceleration_type = lua.new_usertype<Acceleration>("Acceleration",
+
+			sol::constructors< Acceleration(), Acceleration(float, float)>()
+
+			);
+
+		acceleration_type["x"] = &Acceleration::x;
+		acceleration_type["y"] = &Acceleration::y;
+
 		lua["GetSprite"] = [&](EntityID e) -> Sprite& { return engine->ECS.Get<Sprite>(e); };
 		lua["GetScript"] = [&](EntityID e) -> Script& { return engine->ECS.Get<Script>(e); };
+		lua["GetVelocity"] = [&](EntityID e) -> Velocity& { return engine->ECS.Get<Velocity>(e); };
+		lua["GetAcceleration"] = [&](EntityID e) -> Acceleration& { return engine->ECS.Get<Acceleration>(e); };
 		lua["GetHealth"] = [&](EntityID e) -> Health& { return engine->ECS.Get<Health>(e); };
 		lua["Keys"] = &engine->input.keys;
 		lua["PlaySound"] = [&](string name) -> void { engine->sound.PlaySound(name); };
 		lua["spawn"] = true;
+		//lua.set("spawn", 1);
+		
+		lua["maxSpeed"] = 0.5;
+		lua["maxForce"] = 0.5;
+		lua["desiredSeparation"] = 0.1;
+		lua["neighbordist"] = 50;
 		lua["count"] = 0;
 		lua["CreateSprite"] = [&](Sprite& sprite) -> EntityID { return engine->ECS.Create<Sprite>(sprite); };
 		lua["DestroyEntity"] = [&](EntityID e) -> void { engine->ECS.Destroy(e); };
-
+		lua["PathFind"] = [&](Sprite& seekerSprite, SpritePos goal, SpritePos seeker) -> void { engine->path.findPath(seekerSprite, goal, seeker, engine->ECS); };
 	}
 
 	bool ScriptManager::LoadScript(const string& name, const string& path) {

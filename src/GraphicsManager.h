@@ -1,8 +1,6 @@
 #pragma once
 #include <unordered_map>
 
-#include "Component.h"
-
 #include "sokol_gfx.h"
 #include "GLFW/glfw3.h"
 #include "stb_image.h"
