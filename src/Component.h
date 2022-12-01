@@ -12,10 +12,26 @@ namespace engine {
 	typedef long EntityID;
 	typedef int ComponentIndex;
 
+	struct SpritePos {
+		double x, y;
+	};
+
+	struct Node {
+		SpritePos position;
+		double goalDistance;
+		int nodesFromGoal;
+		Node* parent;
+		Node* nextInPath;
+		bool isGoal;
+		bool isBlocked;
+
+	};
+
 	struct Sprite {
 		string name;
 		float x, y, z, scale, rotate;
 		int index = 0;
+		SpritePos position;
 
 		Sprite() {
 		}
