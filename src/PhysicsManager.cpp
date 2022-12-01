@@ -54,11 +54,11 @@ namespace engine {
             separation_count++;
         }
 
-        if ((d > 0) && (d < desiredSeparation+0.5 && engine->ECS.Get<Sprite>(id2).name == "rock")) {
+        if ((d > 0) && (d < desiredSeparation+0.4) && engine->ECS.Get<Sprite>(id2).name == "rock") {
             Pvector diff(0, 0);
             diff = diff.subTwoVector(location1, location2);
             diff.normalize();
-            diff.mulScalar(5);
+            diff.mulScalar(10);
             separation.addVector(diff);
             separation_count++;
         }
@@ -156,6 +156,27 @@ namespace engine {
 
                 });
             }
+
+            if (entity.name == "rock") {
+
+                engine->ECS.ForEach<Sprite>([&](EntityID id2) {
+
+                    if (engine->ECS.Get<Sprite>(id2).name == "missile2" && CheckCollisions(id, id2)) {
+
+                        auto& entity2 = engine->ECS.Get<Sprite>(id2);
+                        auto& entity2_v = engine->ECS.Get<Velocity>(id2);
+                        auto& acceleration2 = engine->ECS.Get<Acceleration>(id2);
+                        entity2_v.x = -entity2_v.x;
+                        entity2_v.y = -entity2_v.y;
+                        acceleration2.x = -acceleration2.x;
+                        acceleration2.y = -acceleration2.y;
+                    }
+
+
+                });
+
+
+            }
        
             if (entity.name == "enemy") {
 
@@ -195,6 +216,10 @@ namespace engine {
                         Separation(id, id2);
                         Alignment(id, id2);
                         Cohesion(id, id2);
+                    }
+
+                    if (entity2.name == "rock") {
+                        Separation(id, id2);
                     }
 
 

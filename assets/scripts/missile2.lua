@@ -37,3 +37,5 @@ else
   end
 
 end
+
+missile.rotate = (math.atan(velocity.x, -velocity.y) * (180 / (22/7))) - 180

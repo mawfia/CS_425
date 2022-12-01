@@ -94,7 +94,10 @@ namespace engine {
 		lua.set("spawn", 0);
 		lua.set("rate1", 0);
 		lua.set("rate2", 0);
-		
+		lua.set("rock1", 0);
+		lua.set("rock2", 0);
+		lua.set("astroid1", 0);
+		lua.set("astroid2", 0);
 		lua["maxSpeed"] = 0.5;
 		lua["maxForce"] = 0.5;
 		lua["desiredSeparation"] = 0.1;
