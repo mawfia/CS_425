@@ -152,7 +152,7 @@ namespace engine {
 			unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 4);
 
 			if (!data) return false;
-			else cout << path + " loaded successfully" << endl;
+			//else cout << path + " loaded successfully" << endl;
 
 			sg_image_desc image_desc{};
 
