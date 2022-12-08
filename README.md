@@ -6,7 +6,7 @@ Game engine is built using C++ and Lua
 
 Galaga++ is a game using the game engine that incorporates rigid body physics and AI for the enemy behavior.  Game demo is below.
 
-[![Galaga++](https://iili.io/Hnzf56F.md.png)](https://youtube.com/shorts/SltNy-fuEBk)
+[![Galaga++](https://iili.io/HnzxPcP.md.jpg)](https://youtube.com/shorts/SltNy-fuEBk)
 
 
 ## Platform setup
