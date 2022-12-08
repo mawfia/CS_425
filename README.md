@@ -1,6 +1,13 @@
 # IllEngine
 
-In this class you will make your own game engine from scratch.
+Fall 2022 - CS 425/Game Programming I
+
+Game engine is built using C++ and Lua
+
+Galaga++ is a game using the game engine that incorporates rigid body physics and AI for the enemy behavior.  Game demo is below.
+
+[![Galaga++](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://youtube.com/shorts/SltNy-fuEBk)
+
 
 ## Platform setup
 
